@@ -1,3 +1,22 @@
+.gradle/
+.idea/
+.DS_Store
+.history/
+.nyc_output/
+.vscode/
+*.lock
+*.sum
+*.log
+vendor/
+*.iml
+target/
+.settings/
+.classpath
+.project
+.history/
+coverage.html
+coverage.out
+
 # Compiled class file
 *.class
 
