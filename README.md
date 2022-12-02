@@ -1,1 +1,1 @@
-# xCloud-java-sdk
+# xCurrency Hub Java SDK
