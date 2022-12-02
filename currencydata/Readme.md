@@ -1,10 +1,10 @@
-# Exchange Rate API
+# Currency Data API
 ## Installation
 
 ```java
 <dependency>
    <groupId>com.tratao</groupId>
-   <artifactId>chinapayout</artifactId>
+   <artifactId>currency</artifactId>
    <version>Use the version shown in the maven badge</version>
 </dependency>
 ```
