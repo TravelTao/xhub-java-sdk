@@ -4,6 +4,7 @@
 .history/
 .nyc_output/
 .vscode/
+build/
 *.lock
 *.sum
 *.log
