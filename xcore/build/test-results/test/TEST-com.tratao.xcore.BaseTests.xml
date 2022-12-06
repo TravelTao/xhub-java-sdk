@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tratao.xcore.BaseTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-12-06T08:06:39" hostname="traveltaodeMac-mini.local" time="0.711">
+  <properties/>
+  <testcase name="testRequest()" classname="com.tratao.xcore.BaseTests" time="0.711"/>
+  <system-out><![CDATA[{ "statusCode":405, "content":<html>
+<head><title>405 Not Allowed</title></head>
+<body bgcolor="white">
+<center><h1>405 Not Allowed</h1></center>
+<hr><center>bfe/1.0.8.18</center>
+</body>
+</html>
+}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -26,4 +26,9 @@ public class RequestResult implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
+
+    @Override
+    public String toString() {
+        return "{ \"statusCode\":" + statusCode + ", \"content\":" + content + "}";
+    }
 }
