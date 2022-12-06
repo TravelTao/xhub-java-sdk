@@ -29,6 +29,6 @@ public class RequestResult implements Serializable {
 
     @Override
     public String toString() {
-        return "{ \"statusCode\":" + statusCode + ", \"content\":" + content + "}";
+        return "{\"statusCode\":" + statusCode + ", \"content\":" + content + "}";
     }
 }
