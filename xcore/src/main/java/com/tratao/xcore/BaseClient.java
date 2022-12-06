@@ -61,7 +61,7 @@ public class BaseClient {
             manager.closeExpiredConnections();
             manager.closeIdleConnections(timeOut, TimeUnit.MILLISECONDS);
 
-            TLog.getInstance().log("Close expired and idle over 15s connection");
+            TLog.getInstance().log(String.format("Close expired and idle over {}s connection", timeOut));
 
         }, 300, 300, TimeUnit.SECONDS);
 
