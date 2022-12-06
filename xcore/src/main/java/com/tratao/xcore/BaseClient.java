@@ -12,10 +12,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.NoHttpResponseException;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.*;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ConnectTimeoutException;
@@ -224,6 +221,53 @@ public class BaseClient {
         }
     }
 
+    private RequestResult doPut(String url, HashMap<String, String> params, HashMap<String, String> headers, String body) throws Exception {
+        URIBuilder builder = new URIBuilder(url);
+        if (MapUtils.isNotEmpty(params)) {
+            params.forEach((key, value) -> builder.setParameter(key, value));
+        }
+
+        HttpPut httpPut = new HttpPut(builder.build());
+        setRequestConfig(httpPut);
+
+        if (MapUtils.isNotEmpty(headers)) {
+            params.forEach(httpPut::setHeader);
+        }
+
+        if (StringUtils.isNotBlank(body)) {
+            httpPut.setEntity(new StringEntity(body, ContentType.APPLICATION_JSON));
+        }
+
+        CloseableHttpResponse response = client.execute(httpPut, HttpClientContext.create());
+
+        try {
+            return getResult(response);
+        } finally {
+            release(response);
+        }
+    }
+
+    private RequestResult doDelete(String url, HashMap<String, String> params, HashMap<String, String> headers) throws Exception {
+        URIBuilder builder = new URIBuilder(url);
+        if (MapUtils.isNotEmpty(params)) {
+            params.forEach((key, value) -> builder.setParameter(key, value));
+        }
+
+        HttpDelete httpDelete = new HttpDelete(builder.build());
+        setRequestConfig(httpDelete);
+
+        if (MapUtils.isNotEmpty(headers)) {
+            params.forEach(httpDelete::setHeader);
+        }
+
+        CloseableHttpResponse response = client.execute(httpDelete);
+
+        try {
+            return getResult(response);
+        } finally {
+            release(response);
+        }
+    }
 
     public RequestResult makeRequest(String url, RequestMethod method) throws Exception {
         return makeRequest(url, method, null);
@@ -243,6 +287,10 @@ public class BaseClient {
                 return doGet(url, params, headers);
             case POST:
                 return doPost(url, params, headers, body);
+            case PUT:
+                return doPut(url, params, headers, body);
+            case DELETE:
+                return doDelete(url, params, headers);
             default:
                 TLog.getInstance().log("Not Support Method");
         }
