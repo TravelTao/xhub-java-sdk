@@ -18,10 +18,10 @@ public class RSASign {
     public static final String RSA_ALGORITHM_SIGN = "SHA256WithRSA";
 
     /**
-     * 私钥签名
-     * @param data 需要加签的数据
-     * @param privateKeyStr 私钥字符串
-     * @return
+     * use private key to sign
+     * @param data origin data
+     * @param privateKeyStr private key
+     * @return sign data
      */
     public static String sign(String data,String privateKeyStr){
         try{
@@ -37,6 +37,13 @@ public class RSASign {
         }
     }
 
+    /**
+     * verify the sign data
+     * @param data origin data
+     * @param sign sign data
+     * @param publicKeyStr public key
+     * @return true or false
+     */
     public static boolean verify(String data, String sign,String publicKeyStr){
         try{
             KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
