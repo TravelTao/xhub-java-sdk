@@ -58,8 +58,6 @@ publishing {
             artifactId project.name
             version "${version}"
             from components.java
-            artifact sourcesJar
-            artifact javadocJar
 
             // 添加 pom 相关信息
             // https://docs.gradle.org/current/dsl/org.gradle.api.publish.maven.MavenPublication.html
@@ -106,7 +104,6 @@ publishing {
         }
     }
 }
-
 
 signing {
     sign publishing.publications.mavenJava
