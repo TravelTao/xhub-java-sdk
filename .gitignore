@@ -17,6 +17,7 @@ target/
 .history/
 coverage.html
 coverage.out
+gradle.properties
 
 # Compiled class file
 *.class
