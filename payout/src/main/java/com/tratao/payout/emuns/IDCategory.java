@@ -9,5 +9,7 @@ public enum IDCategory {
         this.name = name;
     }
 
-
+    public String getName() {
+        return name;
+    }
 }

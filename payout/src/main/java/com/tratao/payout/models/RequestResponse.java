@@ -1,6 +1,6 @@
 package com.tratao.payout.models;
 
-public class BaseRequestResponse<T> {
+public class RequestResponse<T> {
     private String status;
     private String message;
     private T data;
