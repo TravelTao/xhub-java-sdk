@@ -1,13 +1,14 @@
 package com.tratao.payout.models;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.tratao.payout.emuns.AccountType;
 import com.tratao.payout.emuns.Gender;
 import com.tratao.payout.emuns.IDCategory;
 
 import java.util.Date;
 
 public class Beneficiary {
-    private String accountType;
+    private AccountType accountType;
     @JSONField(name = "accountNumber")
     private String cardNo;
     private String email;
@@ -33,11 +34,15 @@ public class Beneficiary {
 
     private Address address;
 
-    public String getAccountType() {
+    public Beneficiary() {
+        this.accountType = AccountType.BANK;
+    }
+
+    public AccountType getAccountType() {
         return accountType;
     }
 
-    public void setAccountType(String accountType) {
+    public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
     }
 

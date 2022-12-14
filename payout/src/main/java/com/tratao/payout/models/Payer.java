@@ -1,11 +1,14 @@
 package com.tratao.payout.models;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.tratao.payout.emuns.AccountType;
 import com.tratao.payout.emuns.Gender;
 import com.tratao.payout.emuns.IDCategory;
 
+import java.util.Date;
+
 public class Payer {
-    private String accountType;
+    private AccountType accountType;
     private String cardNo;
     private String email;
     private String firstName;
@@ -16,9 +19,10 @@ public class Payer {
     @JSONField(name = "idType")
     private IDCategory idCategory;
     private String idNumber;
-    @JSONField(name = "dob")
-    private String birthday;
-    private String idExpiryDate;
+    @JSONField(name = "dob", format = "yyyy-MM-dd")
+    private Date birthday;
+    @JSONField(format = "yyyy-MM-dd")
+    private Date idExpiryDate;
     private String occupation;
     private String iddCode;
     private String phone;
@@ -27,11 +31,15 @@ public class Payer {
 
     private Address address;
 
-    public String getAccountType() {
+    public Payer() {
+        this.accountType = AccountType.BANK;
+    }
+
+    public AccountType getAccountType() {
         return accountType;
     }
 
-    public void setAccountType(String accountType) {
+    public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
     }
 
@@ -83,11 +91,11 @@ public class Payer {
         this.nationality = nationality;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
@@ -107,11 +115,11 @@ public class Payer {
         this.idNumber = idNumber;
     }
 
-    public String getIdExpiryDate() {
+    public Date getIdExpiryDate() {
         return idExpiryDate;
     }
 
-    public void setIdExpiryDate(String idExpiryDate) {
+    public void setIdExpiryDate(Date idExpiryDate) {
         this.idExpiryDate = idExpiryDate;
     }
 
