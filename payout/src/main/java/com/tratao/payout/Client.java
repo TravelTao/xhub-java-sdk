@@ -32,6 +32,10 @@ public class Client {
         }
     }
 
+    public void setHost(String host) {
+        this.host = host;
+    }
+
     public Client(Config config) {
         this.config = config;
         baseClient = BaseClient.getInstance();
@@ -89,6 +93,8 @@ public class Client {
 
         return new RequestResponse<>("-1", "request error");
     }
+
+
 
     public RequestResponse<CreateTransferResponseData> createTransfer(CreateTransferRequest request) {
 
