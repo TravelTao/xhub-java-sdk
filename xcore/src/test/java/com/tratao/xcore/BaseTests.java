@@ -12,7 +12,7 @@ public class BaseTests {
 
     @Test
     public void testRequest() throws Exception {
-        System.out.println(BaseClient.getInstance().makeRequest("https://baidu.com", RequestMethod.GET));
+        System.out.println(BaseClient.getInstance().makeRequest("https://api-sandbox.xcurrency.com/payout/", RequestMethod.GET));
     }
 
     @Test
