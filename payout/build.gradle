@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.tratao:xcore:1.0.0'
+    implementation 'com.tratao:xcore:1.0.1'
     implementation 'com.alibaba:fastjson:2.0.20'
     implementation 'com.google.guava:guava:31.1-jre'
 
