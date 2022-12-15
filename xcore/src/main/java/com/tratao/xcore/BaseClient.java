@@ -208,7 +208,7 @@ public class BaseClient {
         setRequestConfig(httpPost);
 
         if (MapUtils.isNotEmpty(headers)) {
-            params.forEach(httpPost::setHeader);
+            headers.forEach(httpPost::setHeader);
         }
 
         if (StringUtils.isNotBlank(body)) {
@@ -234,7 +234,7 @@ public class BaseClient {
         setRequestConfig(httpPut);
 
         if (MapUtils.isNotEmpty(headers)) {
-            params.forEach(httpPut::setHeader);
+            headers.forEach(httpPut::setHeader);
         }
 
         if (StringUtils.isNotBlank(body)) {
@@ -260,7 +260,7 @@ public class BaseClient {
         setRequestConfig(httpDelete);
 
         if (MapUtils.isNotEmpty(headers)) {
-            params.forEach(httpDelete::setHeader);
+            headers.forEach(httpDelete::setHeader);
         }
 
         CloseableHttpResponse response = client.execute(httpDelete);
