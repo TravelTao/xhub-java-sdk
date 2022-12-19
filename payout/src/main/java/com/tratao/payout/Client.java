@@ -156,4 +156,26 @@ public class Client {
         return null;
     }
 
+    public boolean confirmTransfer(TradeIDRequest request) {
+        String uri = host + "/payment/transfer";
+        getToken();
+
+        String body = JSON.toJSONString(request);
+        headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
+
+        try {
+            RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
+
+            if (result.getStatusCode() == 200) {
+                RequestResponse<String> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<String>>(){});
+
+                return response.getData().equals("success");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
 }
