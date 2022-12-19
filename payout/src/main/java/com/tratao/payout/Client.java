@@ -178,4 +178,49 @@ public class Client {
         return false;
     }
 
+    public boolean asyncConfirmTransfer(TradeIDRequest request) {
+        String uri = host + "/payment/transfer";
+        getToken();
+
+        String body = JSON.toJSONString(request);
+        headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
+
+        try {
+            RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
+
+            if (result.getStatusCode() == 200) {
+                RequestResponse response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse>(){});
+
+                return response.getStatus().equals("1");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean cancelTransfer(TradeIDRequest request) {
+        String uri = host + "/payment/cancel";
+        getToken();
+
+        String body = JSON.toJSONString(request);
+        headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
+
+        try {
+            RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
+
+            if (result.getStatusCode() == 200) {
+                RequestResponse response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse>(){});
+
+                return response.getStatus().equals("1");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
 }
