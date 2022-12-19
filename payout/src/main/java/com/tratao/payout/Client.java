@@ -114,10 +114,46 @@ public class Client {
         return null;
     }
 
-    public RequestResponse<CreateTransferResponseData> createTransfer(CreateTransferRequest request) {
 
+    public List<GetPBCAreaListResponseData> getPBCAreaListData() {
+        String uri = host + "/common/area/list";
+        getToken();
 
-        return new RequestResponse<>();
+        try {
+            RequestResult result = baseClient.makeRequest(uri, RequestMethod.GET, null, headers);
+
+            if (result.getStatusCode() == 200) {
+                RequestResponse<List<GetPBCAreaListResponseData>> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<List<GetPBCAreaListResponseData>>>(){});
+
+                return response.getData();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public CreateTransferResponseData createTransfer(CreateTransferRequest request) {
+        String uri = host + "/payment/create";
+        getToken();
+
+        String body = JSON.toJSONString(request);
+        headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
+
+        try {
+            RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
+
+            if (result.getStatusCode() == 200) {
+                RequestResponse<CreateTransferResponseData> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<CreateTransferResponseData>>(){});
+
+                return response.getData();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }
