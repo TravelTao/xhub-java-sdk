@@ -13,6 +13,7 @@ import com.tratao.xcore.request.RequestResult;
 import com.tratao.xcore.sign.RSASign;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Client {
@@ -47,7 +48,7 @@ public class Client {
      * To get token and auto set headers of token
      * @return response
      */
-    public RequestResponse<String> getToken() {
+    public String getToken() {
         String uri = host + "/oauth/token";
         GetTokenRequest request = new GetTokenRequest();
         request.setSecretKey(config.getSecretKey());
@@ -64,15 +65,15 @@ public class Client {
                 // set header token
                 headers.put("token", response.getData());
 
-                return response;
+                return response.getData();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new RequestResponse<>("-1", "request error");
+        return null;
     }
 
-    public RequestResponse<GetRateResponseData> getRate(GetRateRequest request) {
+    public GetRateResponseData getRate(GetRateRequest request) {
         String uri = host + "/payment/query/price";
         getToken();
 
@@ -85,16 +86,33 @@ public class Client {
             if (result.getStatusCode() == 200) {
                 RequestResponse<GetRateResponseData> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<GetRateResponseData>>(){});
 
-                return response;
+                return response.getData();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new RequestResponse<>("-1", "request error");
+        return null;
     }
 
+    public List<GetOccupationListResponseData> getOccupationData() {
+        String uri = host + "/common/occupation/list";
+        getToken();
 
+        try {
+            RequestResult result = baseClient.makeRequest(uri, RequestMethod.GET, null, headers);
+
+            if (result.getStatusCode() == 200) {
+                RequestResponse<List<GetOccupationListResponseData>> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<List<GetOccupationListResponseData>>>(){});
+
+                return response.getData();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     public RequestResponse<CreateTransferResponseData> createTransfer(CreateTransferRequest request) {
 

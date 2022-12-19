@@ -24,9 +24,9 @@ public class ClientTest {
         GetRateRequest request = new GetRateRequest();
         request.setTargetCurrency("CNY");
         request.setSourceCurrency("USD");
-        RequestResponse<GetRateResponseData> response = client.getRate(request);
+        GetRateResponseData response = client.getRate(request);
 
-        Assertions.assertTrue(response.getData().getRate() > 0);
+        Assertions.assertTrue(response.getRate() > 0);
     }
 
 }
