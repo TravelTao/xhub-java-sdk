@@ -11,6 +11,7 @@ import com.tratao.xcore.request.RequestMethod;
 import com.tratao.xcore.request.RequestResult;
 import com.tratao.xcore.sign.RSASign;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -264,5 +265,47 @@ public class Client {
         return false;
     }
 
+    public BalanceResponseData getCurrencyBalance(BalanceRequest request) {
+        String uri = host + "/wallet/get";
+        getToken();
 
+        String body = JSON.toJSONString(request);
+        headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
+
+        try {
+            RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
+
+            if (result.getStatusCode() == 200) {
+                RequestResponse<BalanceResponseData> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<BalanceResponseData>>(){});
+
+                return response.getData();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<BalanceResponseData> getAllBalance() {
+        String uri = host + "/wallet/get";
+        getToken();
+
+        String body = JSON.toJSONString(new HashMap<>());
+        headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
+
+        try {
+            RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
+
+            if (result.getStatusCode() == 200) {
+                RequestResponse<List<BalanceResponseData>> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<List<BalanceResponseData>>>(){});
+
+                return response.getData();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
 }
