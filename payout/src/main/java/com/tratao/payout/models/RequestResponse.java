@@ -1,6 +1,7 @@
 package com.tratao.payout.models;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.base.Strings;
 
 public class RequestResponse<T> {
     private String status;
@@ -38,6 +39,13 @@ public class RequestResponse<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public boolean isSuccess() {
+        if (Strings.isNullOrEmpty(this.status)) {
+            return false;
+        }
+        return this.status.equals("1");
     }
 
     @Override

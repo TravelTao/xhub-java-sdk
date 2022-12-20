@@ -2,7 +2,7 @@ package com.tratao.payout.models;
 
 import com.google.common.base.Strings;
 
-public class GetTransferStatus {
+public class PaymentStatus {
     /**
      * error message
      */

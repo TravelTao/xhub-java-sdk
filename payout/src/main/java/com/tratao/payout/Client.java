@@ -2,7 +2,6 @@ package com.tratao.payout;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.alibaba.fastjson.serializer.JSONSerializer;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.tratao.payout.models.*;
@@ -14,7 +13,6 @@ import com.tratao.xcore.sign.RSASign;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Client {
     private Config config;
@@ -134,7 +132,7 @@ public class Client {
         return null;
     }
 
-    public CreateTransferResponseData createTransfer(CreateTransferRequest request) {
+    public PaymentStatus createTransfer(CreateTransferRequest request) {
         String uri = host + "/payment/create";
         getToken();
 
@@ -145,7 +143,7 @@ public class Client {
             RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
 
             if (result.getStatusCode() == 200) {
-                RequestResponse<CreateTransferResponseData> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<CreateTransferResponseData>>(){});
+                RequestResponse<PaymentStatus> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<PaymentStatus>>(){});
 
                 return response.getData();
             }
@@ -213,7 +211,7 @@ public class Client {
             if (result.getStatusCode() == 200) {
                 RequestResponse response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse>(){});
 
-                return response.getStatus().equals("1");
+                return response.isSuccess();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -222,7 +220,7 @@ public class Client {
         return false;
     }
 
-    public GetTransferStatus getPaymentStatus(TradeIDRequest request) {
+    public PaymentStatus getPaymentStatus(TradeIDRequest request) {
         String uri = host + "/payment/status";
         getToken();
 
@@ -233,7 +231,7 @@ public class Client {
             RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
 
             if (result.getStatusCode() == 200) {
-                RequestResponse<GetTransferStatus> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<GetTransferStatus>>(){});
+                RequestResponse<PaymentStatus> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<PaymentStatus>>(){});
 
                 return response.getData();
             }
@@ -242,6 +240,28 @@ public class Client {
         }
 
         return null;
+    }
+
+    public boolean updatePaymentInfo(UpdateTransferRequest request) {
+        String uri = host + "/payment/update";
+        getToken();
+
+        String body = JSON.toJSONString(request);
+        headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
+
+        try {
+            RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
+
+            if (result.getStatusCode() == 200) {
+                RequestResponse<PaymentStatus> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<PaymentStatus>>(){});
+
+                return response.isSuccess();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
 
