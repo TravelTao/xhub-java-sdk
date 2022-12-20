@@ -1,6 +1,6 @@
 package com.tratao.payout.models;
 
-public class GetRateResponseData {
+public class RateResponseData {
     private String queryNo;
     private double rate;
     private String sourceCurrency;

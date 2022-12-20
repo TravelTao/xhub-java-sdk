@@ -2,11 +2,11 @@ package com.tratao.payout.models;
 
 import java.util.List;
 
-public class GetPBCAreaListResponseData {
+public class PBCAreaResponseData {
     private String areaLevel;
     private String areaKey;
     private String code;
-    private List<GetOccupationListResponseData> list;
+    private List<PBCAreaResponseData> list;
     private String name;
     private String pinyin;
 
@@ -34,11 +34,11 @@ public class GetPBCAreaListResponseData {
         this.code = code;
     }
 
-    public List<GetOccupationListResponseData> getList() {
+    public List<PBCAreaResponseData> getList() {
         return list;
     }
 
-    public void setList(List<GetOccupationListResponseData> list) {
+    public void setList(List<PBCAreaResponseData> list) {
         this.list = list;
     }
 

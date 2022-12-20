@@ -1,8 +1,7 @@
 package com.tratao.payout;
 
 import com.tratao.payout.models.GetRateRequest;
-import com.tratao.payout.models.GetRateResponseData;
-import com.tratao.payout.models.RequestResponse;
+import com.tratao.payout.models.RateResponseData;
 import com.tratao.xcore.Config;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +23,7 @@ public class ClientTest {
         GetRateRequest request = new GetRateRequest();
         request.setTargetCurrency("CNY");
         request.setSourceCurrency("USD");
-        GetRateResponseData response = client.getRate(request);
+        RateResponseData response = client.getRate(request);
 
         Assertions.assertTrue(response.getRate() > 0);
     }
