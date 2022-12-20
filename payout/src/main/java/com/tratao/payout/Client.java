@@ -222,5 +222,27 @@ public class Client {
         return false;
     }
 
+    public GetTransferStatus getPaymentStatus(TradeIDRequest request) {
+        String uri = host + "/payment/status";
+        getToken();
+
+        String body = JSON.toJSONString(request);
+        headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
+
+        try {
+            RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
+
+            if (result.getStatusCode() == 200) {
+                RequestResponse<GetTransferStatus> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<GetTransferStatus>>(){});
+
+                return response.getData();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
 }
