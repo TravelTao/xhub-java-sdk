@@ -20,19 +20,14 @@ public class Client {
     private Config config;
     private BaseClient baseClient;
     private HashMap<String, String> headers;
-    private String host = "https://api.xcurerncy.com/payout";
-    private boolean sandbox;
+    private String host = "https://api-sandbox.xcurerncy.com";
     private HashMap<String, Integer> retries;
 
-    public void setSandbox(boolean sandbox) {
-        this.sandbox = sandbox;
-        if (sandbox) {
-            host = "https://api-sandbox.xcurrency.com/payout";
-        } else {
-            host = "https://api.xcurrency.com/payout";
-        }
-    }
-
+    /**
+     * default value is sandbox host, on production environment, please set the host.
+     *
+     * @param host sandbox host or production host
+     */
     public void setHost(String host) {
         this.host = host;
     }
@@ -53,7 +48,7 @@ public class Client {
      * @return response
      */
     public String getToken() {
-        String uri = host + "/oauth/token";
+        String uri = host + "/payout/oauth/token";
         GetTokenRequest request = new GetTokenRequest();
         request.setSecretKey(config.getSecretKey());
         request.setAppKey(config.getAppKey());
@@ -87,7 +82,7 @@ public class Client {
      * @return { queryNo: query id, rate: 6.7522, sourceCurrency: USD, targetCurrency: CNY }
      */
     public RateResponseData getRate(GetRateRequest request) {
-        String uri = host + "/payment/query/price";
+        String uri = host + "/payout/payment/query/price";
         getToken();
 
         String body = JSON.toJSONString(request);
@@ -121,7 +116,7 @@ public class Client {
      * @return [ { nameEn: , nameCn: , nameTw: } ]
      */
     public List<OccupationResponseData> getOccupationData() {
-        String uri = host + "/common/occupation/list";
+        String uri = host + "/payout/common/occupation/list";
         getToken();
 
         try {
@@ -155,7 +150,7 @@ public class Client {
      * @return [ { areaLevel, areaKey, code, list: [], name: , pinyin: } ]
      */
     public List<PBCAreaResponseData> getPBCAreaListData() {
-        String uri = host + "/common/area/list";
+        String uri = host + "/payout/common/area/list";
         getToken();
 
         try {
@@ -184,7 +179,7 @@ public class Client {
      * @return { tradeId: , status:  }
      */
     public PaymentStatus createTransfer(CreateTransferRequest request) {
-        String uri = host + "/payment/create";
+        String uri = host + "/payout/payment/create";
         getToken();
 
         String body = JSON.toJSONString(request);
@@ -217,7 +212,7 @@ public class Client {
      * @return true or false
      */
     public boolean confirmTransfer(TradeIDRequest request) {
-        String uri = host + "/payment/transfer";
+        String uri = host + "/payout/payment/transfer";
         getToken();
 
         String body = JSON.toJSONString(request);
@@ -250,7 +245,7 @@ public class Client {
      * @return true or false
      */
     public boolean asyncConfirmTransfer(TradeIDRequest request) {
-        String uri = host + "/payment/transfer";
+        String uri = host + "/payout/payment/transfer";
         getToken();
 
         String body = JSON.toJSONString(request);
@@ -280,7 +275,7 @@ public class Client {
      * @return true or false
      */
     public boolean cancelTransfer(TradeIDRequest request) {
-        String uri = host + "/payment/cancel";
+        String uri = host + "/payout/payment/cancel";
         getToken();
 
         String body = JSON.toJSONString(request);
@@ -310,7 +305,7 @@ public class Client {
      * @return { status: , message: }
      */
     public PaymentStatus getPaymentStatus(TradeIDRequest request) {
-        String uri = host + "/payment/status";
+        String uri = host + "/payout/payment/status";
         getToken();
 
         String body = JSON.toJSONString(request);
@@ -343,7 +338,7 @@ public class Client {
      * @return true or false
      */
     public boolean updatePaymentInfo(UpdateTransferRequest request) {
-        String uri = host + "/payment/update";
+        String uri = host + "/payout/payment/update";
         getToken();
 
         String body = JSON.toJSONString(request);
@@ -373,7 +368,7 @@ public class Client {
      * @return { amount: , currency: , walletId:  }
      */
     public BalanceResponseData getCurrencyBalance(BalanceRequest request) {
-        String uri = host + "/wallet/get";
+        String uri = host + "/payout/wallet/get";
         getToken();
 
         String body = JSON.toJSONString(request);
@@ -402,7 +397,7 @@ public class Client {
      * @return [ { amount: , currency: , walletId:  } ]
      */
     public List<BalanceResponseData> getAllBalance() {
-        String uri = host + "/wallet/get";
+        String uri = host + "/payout/wallet/get";
         getToken();
 
         String body = JSON.toJSONString(new HashMap<>());
