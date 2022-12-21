@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.tratao.payout.exception.ValidateError;
+import com.tratao.payout.exception.ValidateException;
 import com.tratao.payout.models.*;
 import com.tratao.xcore.BaseClient;
 import com.tratao.xcore.Config;
@@ -12,9 +14,14 @@ import com.tratao.xcore.request.RequestResult;
 import com.tratao.xcore.sign.RSASign;
 import com.tratao.xcore.utils.TLog;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class Client {
     private Config config;
@@ -22,6 +29,7 @@ public class Client {
     private HashMap<String, String> headers;
     private String host = "https://api-sandbox.xcurerncy.com";
     private HashMap<String, Integer> retries;
+    private Validator validator;
 
     /**
      * default value is sandbox host, on production environment, please set the host.
@@ -41,6 +49,10 @@ public class Client {
         baseClient = BaseClient.getInstance();
         headers = Maps.newHashMap(ImmutableMap.of("appKey", config.getAppKey()));
         retries = new HashMap<>();
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+
     }
 
     /**
@@ -181,6 +193,8 @@ public class Client {
     public PaymentStatus createTransfer(CreateTransferRequest request) {
         String uri = host + "/payout/payment/create";
         getToken();
+
+        validator(request);
 
         String body = JSON.toJSONString(request);
         headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
@@ -418,5 +432,21 @@ public class Client {
         }
 
         return new ArrayList<>();
+    }
+
+    private <T> void validator(T request) {
+        Set<ConstraintViolation<T>> violations = validator.validate(request);
+        ArrayList<ValidateError> list = new ArrayList<>();
+        if (!violations.isEmpty()) {
+            for (ConstraintViolation<T> violation : violations) {
+                ValidateError error = new ValidateError();
+                error.setErrorMessage(violation.getMessage());
+                error.setPropertyPath(String.valueOf(violation.getPropertyPath()));
+                list.add(error);
+            }
+        }
+        if (list.size() > 0) {
+            throw new ValidateException(JSON.toJSONString(list));
+        }
     }
 }

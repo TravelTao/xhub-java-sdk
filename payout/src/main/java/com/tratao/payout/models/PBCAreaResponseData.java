@@ -2,6 +2,12 @@ package com.tratao.payout.models;
 
 import java.util.List;
 
+/**
+ * China PBCArea Data
+ *
+ * The areaLevel value of 1 is state(province), 2 is city, 3 is district, for beneficiary's address data can be filled by pinyin fields.
+ * The state(province) has city's list, the city has district's list and the district's list is null or empty.
+ */
 public class PBCAreaResponseData {
     private String areaLevel;
     private String areaKey;

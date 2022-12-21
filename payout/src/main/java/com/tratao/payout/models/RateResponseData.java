@@ -1,5 +1,15 @@
 package com.tratao.payout.models;
 
+/**
+ * Rate response data
+ *
+ * {
+ *      "queryNo": "",
+ *      "rate": ,
+ *      "sourceCurrency": "",
+ *      "targetCurrency": ""
+ * }
+ */
 public class RateResponseData {
     private String queryNo;
     private double rate;

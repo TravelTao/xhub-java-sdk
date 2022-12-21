@@ -1,9 +1,6 @@
 package com.tratao.payout;
 
-import com.tratao.payout.models.GetRateRequest;
-import com.tratao.payout.models.OccupationResponseData;
-import com.tratao.payout.models.PBCAreaResponseData;
-import com.tratao.payout.models.RateResponseData;
+import com.tratao.payout.models.*;
 import com.tratao.xcore.Config;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,6 +46,8 @@ public class ClientTest {
 
     @Test
     public void testCreateTransferSuccess() {
+        CreateTransferRequest request = new CreateTransferRequest();
 
+        client.createTransfer(request);
     }
 }

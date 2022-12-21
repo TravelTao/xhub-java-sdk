@@ -3,17 +3,32 @@ package com.tratao.payout.models;
 import com.tratao.payout.emuns.FundsSource;
 import com.tratao.payout.emuns.Relationship;
 
+import javax.validation.Valid;
+import javax.validation.constraints.*;
+
 public class CreateTransferRequest {
+    @NotEmpty(message = "can not be null")
     private String orderNo;
+    @NotEmpty(message = "can not be null")
     private String targetCurrency;
+    @Positive(message = "should be larger than 0")
     private double targetAmount;
+    @NotEmpty(message = "can not be null")
     private String sourceCurrency;
+    @Positive(message = "should be larger than 0")
     private double sourceAmount;
+    @NotNull(message = "can not be null")
     private Relationship relationship;
+    @NotEmpty(message = "can not be null")
     private String purpose;
+    @NotNull(message = "can not be null")
     private FundsSource fundsSource;
 
+    @Valid
+    @NotNull(message = "can not be null")
     private Beneficiary beneficiary;
+    @Valid
+    @NotNull(message = "can not be null")
     private Payer payer;
 
     public String getOrderNo() {
