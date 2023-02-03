@@ -201,19 +201,19 @@ public class Client {
 
         try {
             RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
+            RequestResponse<PaymentStatus> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<PaymentStatus>>(){});
 
             if (result.getStatusCode() == 200) {
-                RequestResponse<PaymentStatus> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<PaymentStatus>>(){});
-
                 return response.getData();
             } else {
                 TLog.getInstance().log(result.getContent());
+                return new PaymentStatus(response.getStatus(), response.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return null;
+        return new PaymentStatus();
     }
 
     /**
@@ -222,31 +222,32 @@ public class Client {
      * true mean that success send money to beneficiary
      * false mean that transfer error, can check the log
      *
-     * @param request { tradeId }
-     * @return true or false
+     * @param tradeId ""
+     * @return { status:, message }
      */
-    public boolean confirmTransfer(TradeIDRequest request) {
+    public PaymentStatus confirmTransfer(String tradeId) {
         String uri = host + "/payout/payment/transfer";
         getToken();
 
+        TradeIDRequest request = new TradeIDRequest(tradeId);
         String body = JSON.toJSONString(request);
         headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
 
         try {
             RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
+            RequestResponse<String> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<String>>(){});
 
             if (result.getStatusCode() == 200) {
-                RequestResponse<String> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<String>>(){});
-
-                return response.getData().equals("success");
+                return new PaymentStatus("1", response.getData());
             } else {
                 TLog.getInstance().log(result.getContent());
+                return new PaymentStatus(response.getStatus(), response.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return false;
+        return new PaymentStatus();
     }
 
     /**
@@ -339,7 +340,7 @@ public class Client {
             e.printStackTrace();
         }
 
-        return null;
+        return new PaymentStatus();
     }
 
     /**

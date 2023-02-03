@@ -2,6 +2,8 @@ package com.tratao.payout.models;
 
 import com.google.common.base.Strings;
 
+import java.security.PublicKey;
+
 public class PaymentStatus {
     /**
      * error message
@@ -17,6 +19,19 @@ public class PaymentStatus {
      * - canceled
      */
     private String status;
+    /**
+     * tradeId, should store with payment
+     */
+    private String tradeId;
+
+    public PaymentStatus() {
+
+    }
+
+    public PaymentStatus(String status, String message) {
+        this.status = status;
+        this.message = message;
+    }
 
     public String getMessage() {
         return message;
@@ -32,6 +47,26 @@ public class PaymentStatus {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getTradeId() {
+        return tradeId;
+    }
+
+    public void setTradeId(String tradeId) {
+        this.tradeId = tradeId;
+    }
+
+    /**
+     * 判断请求是否成功
+     *
+     * @return true or false
+     */
+    public boolean isSuccess() {
+        if (Strings.isNullOrEmpty(this.status)) {
+            return false;
+        }
+        return !this.status.equals("-1");
     }
 
     /**
