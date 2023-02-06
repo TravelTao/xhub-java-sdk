@@ -1,5 +1,7 @@
 package com.tratao.payout;
 
+import com.tratao.payout.emuns.FundsSource;
+import com.tratao.payout.emuns.Relationship;
 import com.tratao.payout.models.*;
 import com.tratao.xcore.Config;
 import org.junit.jupiter.api.Assertions;
@@ -58,6 +60,14 @@ public class ClientTest {
     @Test
     public void testCreateTransferSuccess() {
         CreateTransferRequest request = new CreateTransferRequest();
+        request.setFundsSource(FundsSource.EMPLOYMENT);
+        request.setRelationship(Relationship.SIBLING);
+        request.setSourceCurrency("CNY");
+        request.setTargetCurrency("CNY");
+        request.setSourceAmount(50);
+        request.setTargetAmount(50);
+        request.setOrderNo("test_000211110001");
+        request.setPurpose("Salary");
 
         PaymentStatus paymentStatus = client.createTransfer(request);
     }
