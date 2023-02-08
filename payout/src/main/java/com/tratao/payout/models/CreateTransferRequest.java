@@ -1,5 +1,7 @@
 package com.tratao.payout.models;
 
+import com.alibaba.fastjson2.annotation.JSONField;
+import com.tratao.payout.emuns.FundsPurpose;
 import com.tratao.payout.emuns.FundsSource;
 import com.tratao.payout.emuns.Relationship;
 
@@ -19,8 +21,8 @@ public class CreateTransferRequest {
     private double sourceAmount;
     @NotNull(message = "can not be null")
     private Relationship relationship;
-    @NotEmpty(message = "can not be null")
-    private String purpose;
+    @NotNull(message = "can not be null")
+    private FundsPurpose purpose;
     @NotNull(message = "can not be null")
     private FundsSource fundsSource;
 
@@ -79,11 +81,11 @@ public class CreateTransferRequest {
         this.relationship = relationship;
     }
 
-    public String getPurpose() {
+    public FundsPurpose getPurpose() {
         return purpose;
     }
 
-    public void setPurpose(String purpose) {
+    public void setPurpose(FundsPurpose purpose) {
         this.purpose = purpose;
     }
 

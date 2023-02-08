@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import static com.alibaba.fastjson.serializer.SerializerFeature.WriteEnumUsingToString;
+
 public class Client {
     private Config config;
     private BaseClient baseClient;
@@ -196,14 +198,15 @@ public class Client {
 
         validator(request);
 
-        String body = JSON.toJSONString(request);
+        String body = JSON.toJSONString(request, WriteEnumUsingToString);
         headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
 
         try {
             RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
             RequestResponse<PaymentStatus> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<PaymentStatus>>(){});
+            TLog.getInstance().log(result.getStatusCode() + ", " + result.getContent());
 
-            if (result.getStatusCode() == 200) {
+            if (result.getStatusCode() == 200 && response.getData() != null) {
                 return response.getData();
             } else {
                 TLog.getInstance().log(result.getContent());
@@ -237,7 +240,7 @@ public class Client {
             RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
             RequestResponse<String> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<String>>(){});
 
-            if (result.getStatusCode() == 200) {
+            if (result.getStatusCode() == 200 && response.getStatus().equals("1")) {
                 return new PaymentStatus("1", response.getData());
             } else {
                 TLog.getInstance().log(result.getContent());
@@ -328,19 +331,19 @@ public class Client {
 
         try {
             RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
+            RequestResponse<PaymentStatus> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<PaymentStatus>>(){});
 
-            if (result.getStatusCode() == 200) {
-                RequestResponse<PaymentStatus> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<PaymentStatus>>(){});
-
+            if (result.getStatusCode() == 200 && response.getData() != null) {
                 return response.getData();
             } else {
                 TLog.getInstance().log(result.getContent());
+                return new PaymentStatus(response.getStatus(), response.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new PaymentStatus();
+        return new PaymentStatus("-1", "Network Fail.");
     }
 
     /**
@@ -356,7 +359,7 @@ public class Client {
         String uri = host + "/payout/payment/update";
         getToken();
 
-        String body = JSON.toJSONString(request);
+        String body = JSON.toJSONString(request, WriteEnumUsingToString);
         headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
 
         try {

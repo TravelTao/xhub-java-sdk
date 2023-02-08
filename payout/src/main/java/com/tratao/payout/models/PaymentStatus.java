@@ -104,4 +104,9 @@ public class PaymentStatus {
         }
         return this.status.equals("failed");
     }
+
+    @Override
+    public String toString() {
+        return String.format("{ \"status\": \"%s\", \"message\": \"%s\"}", status, message);
+    }
 }

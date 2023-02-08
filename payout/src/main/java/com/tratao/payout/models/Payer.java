@@ -5,11 +5,10 @@ import com.tratao.payout.emuns.AccountType;
 import com.tratao.payout.emuns.Gender;
 import com.tratao.payout.emuns.IDCategory;
 
-import java.util.Date;
-
 public class Payer {
     private AccountType accountType;
-    private String cardNo;
+    // 本地银行卡号
+    private String accountNumber;
     private String email;
     private String firstName;
     private String middleName;
@@ -19,10 +18,9 @@ public class Payer {
     @JSONField(name = "idType")
     private IDCategory idCategory;
     private String idNumber;
-    @JSONField(name = "dob", format = "yyyy-MM-dd")
-    private Date birthday;
-    @JSONField(format = "yyyy-MM-dd")
-    private Date idExpiryDate;
+    @JSONField(name = "dob")
+    private String birthday;
+    private String idExpiryDate;
     private String occupation;
     private String iddCode;
     private String phone;
@@ -43,12 +41,12 @@ public class Payer {
         this.accountType = accountType;
     }
 
-    public String getCardNo() {
-        return cardNo;
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setCardNo(String cardNo) {
-        this.cardNo = cardNo;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public String getEmail() {
@@ -91,11 +89,11 @@ public class Payer {
         this.nationality = nationality;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -115,11 +113,11 @@ public class Payer {
         this.idNumber = idNumber;
     }
 
-    public Date getIdExpiryDate() {
+    public String getIdExpiryDate() {
         return idExpiryDate;
     }
 
-    public void setIdExpiryDate(Date idExpiryDate) {
+    public void setIdExpiryDate(String idExpiryDate) {
         this.idExpiryDate = idExpiryDate;
     }
 

@@ -8,7 +8,7 @@ import com.tratao.payout.emuns.IDCategory;
 import java.util.Date;
 
 public class Beneficiary {
-    private AccountType accountType;
+    private AccountType accountType = AccountType.BANK;
     @JSONField(name = "accountNumber")
     private String cardNo;
     private String email;
@@ -16,16 +16,13 @@ public class Beneficiary {
     private String cardName;
     private String nationality;
 
-    private String country;
     @JSONField(name = "idType")
     private IDCategory idCategory;
     private String idNumber;
     @JSONField(name = "dob")
     private String birthday;
-    @JSONField(format = "yyyy-MM-dd")
-    private Date idExpiryDate;
-    @JSONField(format = "yyyy-MM-dd")
-    private Date idIssueDate;
+    private String idExpiryDate;
+    private String idIssueDate;
     private String occupation;
     private String iddCode;
     private String phone;
@@ -70,23 +67,15 @@ public class Beneficiary {
         this.cardName = cardName;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public void setIdExpiryDate(Date idExpiryDate) {
+    public void setIdExpiryDate(String idExpiryDate) {
         this.idExpiryDate = idExpiryDate;
     }
 
-    public Date getIdIssueDate() {
+    public String getIdIssueDate() {
         return idIssueDate;
     }
 
-    public void setIdIssueDate(Date idIssueDate) {
+    public void setIdIssueDate(String idIssueDate) {
         this.idIssueDate = idIssueDate;
     }
 
@@ -115,7 +104,7 @@ public class Beneficiary {
         this.idNumber = idNumber;
     }
 
-    public Date getIdExpiryDate() {
+    public String getIdExpiryDate() {
         return idExpiryDate;
     }
 
