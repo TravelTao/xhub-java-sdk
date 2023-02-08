@@ -35,7 +35,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testRate() throws Exception {
+    public void rate() throws Exception {
         GetRateRequest request = new GetRateRequest();
         request.setSourceCurrency("USD");
         request.setTargetCurrency("CNY");
@@ -45,21 +45,21 @@ public class ClientTest {
     }
 
     @Test
-    public void testPBCAreaList() {
+    public void pBCAreaList() {
         List<PBCAreaResponseData> data = client.getPBCAreaListData();
 
         Assertions.assertTrue(data.size() > 0);
     }
 
     @Test
-    public void testOccupation() {
+    public void occupation() {
         List<OccupationResponseData> data = client.getOccupationData();
 
         Assertions.assertTrue(data.size() > 0);
     }
 
     @Test
-    public void testCreateTransferSuccess() {
+    public void createTransferSuccess() {
         CreateTransferRequest request = new CreateTransferRequest();
         request.setFundsSource(FundsSource.EMPLOYMENT);
         request.setRelationship(Relationship.SIBLING);
@@ -108,5 +108,23 @@ public class ClientTest {
         PaymentStatus paymentStatus = client.createTransfer(request);
 
         System.out.println(paymentStatus);
+        Assertions.assertTrue(paymentStatus.isSuccess());
+    }
+
+    @Test
+    public void transferAsync() {
+        TradeIDRequest request = new TradeIDRequest("c90a4317cf2544faba14696ed8e3a9f9");
+        boolean success = client.asyncConfirmTransfer(request);
+
+        Assertions.assertTrue(success);
+    }
+
+    @Test
+    public void status() {
+        TradeIDRequest request = new TradeIDRequest("c90a4317cf2544faba14696ed8e3a9f9");
+        PaymentStatus status = client.getPaymentStatus(request);
+
+        System.out.println(status);
+        Assertions.assertTrue(status.getStatus() != null);
     }
 }

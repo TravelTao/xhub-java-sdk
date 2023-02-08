@@ -263,7 +263,7 @@ public class Client {
      * @return true or false
      */
     public boolean asyncConfirmTransfer(TradeIDRequest request) {
-        String uri = host + "/payout/payment/transfer";
+        String uri = host + "/payout/payment/transfer/async";
         getToken();
 
         String body = JSON.toJSONString(request);
@@ -271,9 +271,9 @@ public class Client {
 
         try {
             RequestResult result = baseClient.makeRequest(uri, RequestMethod.POST, null, headers, body);
-
+            System.out.println(result.getContent());
             if (result.getStatusCode() == 200) {
-                RequestResponse response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse>(){});
+                RequestResponse response = JSON.parseObject(result.getContent(), RequestResponse.class);
 
                 return response.getStatus().equals("1");
             } else {
