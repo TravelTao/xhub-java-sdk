@@ -68,7 +68,7 @@ public class ClientTest {
         request.setTargetCurrency("CNY");
         request.setSourceAmount(50);
         request.setTargetAmount(50);
-        request.setOrderNo("test_000211110001");
+        request.setOrderNo("test_000211110003");
 
         Payer payer = new Payer();
         payer.setFirstName("test");

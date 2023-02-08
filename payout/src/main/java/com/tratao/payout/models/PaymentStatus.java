@@ -33,6 +33,12 @@ public class PaymentStatus {
         this.message = message;
     }
 
+    public PaymentStatus(String status, String message, String tradeId) {
+        this.status = status;
+        this.message = message;
+        this.tradeId = tradeId;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -107,6 +113,6 @@ public class PaymentStatus {
 
     @Override
     public String toString() {
-        return String.format("{ \"status\": \"%s\", \"message\": \"%s\"}", status, message);
+        return String.format("{ \"status\": \"%s\", \"tradeId\": \"%s\", \"message\": \"%s\"}", status, tradeId, message);
     }
 }
