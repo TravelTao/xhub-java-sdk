@@ -87,7 +87,7 @@ public class ClientTest {
 
         Beneficiary beneficiary = new Beneficiary();
         beneficiary.setBirthday("1986-03-03");
-        beneficiary.setCardName("测试");
+        beneficiary.setName("测试");
         beneficiary.setCardNo("62356635666655665");
         beneficiary.setIdNumber("440902196503032365");
         beneficiary.setGender(Gender.MALE);

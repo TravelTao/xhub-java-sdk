@@ -13,7 +13,7 @@ public class Beneficiary {
     private String cardNo;
     private String email;
     @JSONField(name = "accountName")
-    private String cardName;
+    private String name;
     private String nationality;
 
     @JSONField(name = "idType")
@@ -59,12 +59,12 @@ public class Beneficiary {
         this.email = email;
     }
 
-    public String getCardName() {
-        return cardName;
+    public String getName() {
+        return name;
     }
 
-    public void setCardName(String cardName) {
-        this.cardName = cardName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setIdExpiryDate(String idExpiryDate) {
