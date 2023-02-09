@@ -113,16 +113,15 @@ public class ClientTest {
 
     @Test
     public void transferAsync() {
-        TradeIDRequest request = new TradeIDRequest("c90a4317cf2544faba14696ed8e3a9f9");
-        boolean success = client.asyncConfirmTransfer(request);
+
+        boolean success = client.asyncConfirmTransfer("c90a4317cf2544faba14696ed8e3a9f9");
 
         Assertions.assertTrue(success);
     }
 
     @Test
     public void status() {
-        TradeIDRequest request = new TradeIDRequest("c90a4317cf2544faba14696ed8e3a9f9");
-        PaymentStatus status = client.getPaymentStatus(request);
+        PaymentStatus status = client.getPaymentStatus("c90a4317cf2544faba14696ed8e3a9f9");
 
         System.out.println(status);
         Assertions.assertTrue(status.getStatus() != null);

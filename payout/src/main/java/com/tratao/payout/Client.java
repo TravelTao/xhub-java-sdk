@@ -32,6 +32,7 @@ public class Client {
     private String host = "https://api-sandbox.xcurerncy.com";
     private HashMap<String, Integer> retries;
     private Validator validator;
+    private int retryTimes = 0;
 
     /**
      * default value is sandbox host, on production environment, please set the host.
@@ -55,6 +56,8 @@ public class Client {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
 
+        // fetch token
+        getToken();
     }
 
     /**
@@ -77,6 +80,7 @@ public class Client {
 
                 // set header token
                 headers.put("token", response.getData());
+                retryTimes = 0;
 
                 return response.getData();
             } else {
@@ -97,7 +101,6 @@ public class Client {
      */
     public RateResponseData getRate(GetRateRequest request) {
         String uri = host + "/payout/payment/query/price";
-        getToken();
 
         String body = JSON.toJSONString(request);
         headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
@@ -109,6 +112,10 @@ public class Client {
                 RequestResponse<RateResponseData> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<RateResponseData>>(){});
 
                 return response.getData();
+            } else if (result.getStatusCode() == 403 && retryTimes < 3) {
+                retryTimes ++;
+                getToken();
+                getRate(request);
             } else {
                 TLog.getInstance().log(result.getContent());
             }
@@ -131,7 +138,6 @@ public class Client {
      */
     public List<OccupationResponseData> getOccupationData() {
         String uri = host + "/payout/common/occupation/list";
-        getToken();
 
         try {
             RequestResult result = baseClient.makeRequest(uri, RequestMethod.GET, null, headers);
@@ -140,7 +146,11 @@ public class Client {
                 RequestResponse<List<OccupationResponseData>> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<List<OccupationResponseData>>>(){});
 
                 return response.getData();
-            } else {
+            } else if (result.getStatusCode() == 403 && retryTimes < 3) {
+                retryTimes ++;
+                getToken();
+                getOccupationData();
+            }  else {
                 TLog.getInstance().log(result.getContent());
             }
         } catch (Exception e) {
@@ -165,7 +175,6 @@ public class Client {
      */
     public List<PBCAreaResponseData> getPBCAreaListData() {
         String uri = host + "/payout/common/area/list";
-        getToken();
 
         try {
             RequestResult result = baseClient.makeRequest(uri, RequestMethod.GET, null, headers);
@@ -174,7 +183,11 @@ public class Client {
                 RequestResponse<List<PBCAreaResponseData>> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<List<PBCAreaResponseData>>>(){});
 
                 return response.getData();
-            } else {
+            } else if (result.getStatusCode() == 403 && retryTimes < 3) {
+                retryTimes ++;
+                getToken();
+                getPBCAreaListData();
+            }  else {
                 TLog.getInstance().log(result.getContent());
             }
         } catch (Exception e) {
@@ -194,7 +207,6 @@ public class Client {
      */
     public PaymentStatus createTransfer(CreateTransferRequest request) {
         String uri = host + "/payout/payment/create";
-        getToken();
 
         validator(request);
 
@@ -208,7 +220,11 @@ public class Client {
 
             if (result.getStatusCode() == 200 && response.getData() != null) {
                 return response.getData();
-            } else {
+            } else if (result.getStatusCode() == 403 && retryTimes < 3) {
+                retryTimes ++;
+                getToken();
+                createTransfer(request);
+            }  else {
                 TLog.getInstance().log(result.getContent());
                 return new PaymentStatus(response.getStatus(), response.getMessage());
             }
@@ -230,7 +246,6 @@ public class Client {
      */
     public PaymentStatus confirmTransfer(String tradeId) {
         String uri = host + "/payout/payment/transfer";
-        getToken();
 
         TradeIDRequest request = new TradeIDRequest(tradeId);
         String body = JSON.toJSONString(request);
@@ -242,7 +257,11 @@ public class Client {
 
             if (result.getStatusCode() == 200 && response.getStatus().equals("1")) {
                 return new PaymentStatus("1", response.getData());
-            } else {
+            } else if (result.getStatusCode() == 403 && retryTimes < 3) {
+                retryTimes ++;
+                getToken();
+                confirmTransfer(tradeId);
+            }  else {
                 TLog.getInstance().log(result.getContent());
                 return new PaymentStatus(response.getStatus(), response.getMessage());
             }
@@ -259,13 +278,13 @@ public class Client {
      * true mean that success post data to xCurrency Hubs side.
      * false should check the logs.
      *
-     * @param request { tradeId }
+     * @param tradeId ""
      * @return true or false
      */
-    public boolean asyncConfirmTransfer(TradeIDRequest request) {
+    public boolean asyncConfirmTransfer(String tradeId) {
         String uri = host + "/payout/payment/transfer/async";
-        getToken();
 
+        TradeIDRequest request = new TradeIDRequest(tradeId);
         String body = JSON.toJSONString(request);
         headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
 
@@ -276,7 +295,11 @@ public class Client {
                 RequestResponse response = JSON.parseObject(result.getContent(), RequestResponse.class);
 
                 return response.getStatus().equals("1");
-            } else {
+            } else if (result.getStatusCode() == 403 && retryTimes < 3) {
+                retryTimes ++;
+                getToken();
+                asyncConfirmTransfer(tradeId);
+            }  else {
                 TLog.getInstance().log(result.getContent());
             }
         } catch (Exception e) {
@@ -306,7 +329,11 @@ public class Client {
                 RequestResponse response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse>(){});
 
                 return response.isSuccess();
-            } else {
+            } else if (result.getStatusCode() == 403 && retryTimes < 3) {
+                retryTimes ++;
+                getToken();
+                cancelTransfer(request);
+            }  else {
                 TLog.getInstance().log(result.getContent());
             }
         } catch (Exception e) {
@@ -319,13 +346,13 @@ public class Client {
     /**
      * get payment status
      *
-     * @param request { tradeId }
+     * @param tradeId ""
      * @return { status: , message: }
      */
-    public PaymentStatus getPaymentStatus(TradeIDRequest request) {
+    public PaymentStatus getPaymentStatus(String tradeId) {
         String uri = host + "/payout/payment/status";
-        getToken();
 
+        TradeIDRequest request = new TradeIDRequest(tradeId);
         String body = JSON.toJSONString(request);
         headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
 
@@ -335,7 +362,11 @@ public class Client {
 
             if (result.getStatusCode() == 200 && response.getData() != null) {
                 return response.getData();
-            } else {
+            } else if (result.getStatusCode() == 403 && retryTimes < 3) {
+                retryTimes ++;
+                getToken();
+                getPaymentStatus(tradeId);
+            }  else {
                 TLog.getInstance().log(result.getContent());
                 return new PaymentStatus(response.getStatus(), response.getMessage());
             }
@@ -357,7 +388,6 @@ public class Client {
      */
     public boolean updatePaymentInfo(UpdateTransferRequest request) {
         String uri = host + "/payout/payment/update";
-        getToken();
 
         String body = JSON.toJSONString(request, WriteEnumUsingToString);
         headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
@@ -369,7 +399,11 @@ public class Client {
                 RequestResponse<PaymentStatus> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<PaymentStatus>>(){});
 
                 return response.isSuccess();
-            } else {
+            } else if (result.getStatusCode() == 403 && retryTimes < 3) {
+                retryTimes ++;
+                getToken();
+                updatePaymentInfo(request);
+            }  else {
                 TLog.getInstance().log(result.getContent());
             }
         } catch (Exception e) {
@@ -387,7 +421,6 @@ public class Client {
      */
     public BalanceResponseData getCurrencyBalance(BalanceRequest request) {
         String uri = host + "/payout/wallet/get";
-        getToken();
 
         String body = JSON.toJSONString(request);
         headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
@@ -399,7 +432,11 @@ public class Client {
                 RequestResponse<BalanceResponseData> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<BalanceResponseData>>(){});
 
                 return response.getData();
-            } else {
+            } else if (result.getStatusCode() == 403 && retryTimes < 3) {
+                retryTimes ++;
+                getToken();
+                getCurrencyBalance(request);
+            }  else {
                 TLog.getInstance().log(result.getContent());
             }
         } catch (Exception e) {
@@ -416,7 +453,6 @@ public class Client {
      */
     public List<BalanceResponseData> getAllBalance() {
         String uri = host + "/payout/wallet/get";
-        getToken();
 
         String body = JSON.toJSONString(new HashMap<>());
         headers.put("sign", RSASign.sign(body, config.getPrivateKey()));
@@ -428,7 +464,11 @@ public class Client {
                 RequestResponse<List<BalanceResponseData>> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<List<BalanceResponseData>>>(){});
 
                 return response.getData();
-            } else {
+            } else if (result.getStatusCode() == 403 && retryTimes < 3) {
+                retryTimes ++;
+                getToken();
+                getAllBalance();
+            }  else {
                 TLog.getInstance().log(result.getContent());
             }
         } catch (Exception e) {
