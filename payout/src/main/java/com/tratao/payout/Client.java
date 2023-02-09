@@ -29,7 +29,7 @@ public class Client {
     private Config config;
     private BaseClient baseClient;
     private HashMap<String, String> headers;
-    private String host = "https://api-sandbox.xcurerncy.com";
+    private String host = "https://api-sandbox.xcurrency.com";
     private HashMap<String, Integer> retries;
     private Validator validator;
     private int retryTimes = 0;
@@ -41,6 +41,8 @@ public class Client {
      */
     public void setHost(String host) {
         this.host = host;
+        // fetch token
+        getToken();
     }
 
     /**
@@ -55,9 +57,6 @@ public class Client {
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-
-        // fetch token
-        getToken();
     }
 
     /**
