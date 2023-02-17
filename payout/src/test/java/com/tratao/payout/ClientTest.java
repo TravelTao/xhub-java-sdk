@@ -59,7 +59,7 @@ public class ClientTest {
     }
 
     @Test
-    public void createTransferSuccess() {
+    public void createTransfer() {
         CreateTransferRequest request = new CreateTransferRequest();
         request.setFundsSource(FundsSource.EMPLOYMENT);
         request.setRelationship(Relationship.SIBLING);
