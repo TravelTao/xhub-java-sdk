@@ -3,11 +3,12 @@ This SDK focus on the [API](https://docs.xcurrency.com/payout/en) integration of
 
 You can apply our cutting-edge APIs for an enhanced customer experience, our China Payout solution supports [UnionPay Debit Cards] issued by more than 500 mainstream banks in China, whether it is China's four major state-owned banks, city commercial banks, and rural credit cooperatives in various places.
 
-China Payout has two transaction Modes, the `targetCurrency` should be `CNY`
+China Payout has two transaction Modes, the `targetCurrency` should be `CNY` for all of these modes.
 - **Cross-Currency Transaction Mode** (example: USD/CNY)
   - **FX Trade** Availability Time: working day: 9:30--15:30 UTC+08:00 (Please contact your account manager if you have any questions)
   - **Transfer** Availability Time: working day: 9:30--15:30 UTC+08:00
 - **Same Currency Transaction Mode**, the `sourceCurrency` should be `CNY` (example: CNY/CNY)
+  - Transfer by realtime exchange rate when confirm to payee.
   - **FX Trade** Availability Time: working day: 10:00--14:30 UTC+08:00 (Please contact your account manager if you have any questions)
   - **Transfer** Availability Time: 7x24hr
 
@@ -27,13 +28,24 @@ China Payout has two transaction Modes, the `targetCurrency` should be `CNY`
 
 ## Usage
 The following code example shows the steps to use xCurrency Hubs China Payout SDK for Java :
+
+*Note: the `tradeId` should be store on your side system.*
+
 1. load properties, or can get from system environment
 2. set properties
 3. init Client and set API Host (testing environment and production environment)
-4. create payment, this will get a `tradeId`, if not get `tradeId` mean that not create payment on xCurrency Hub platform, please check the message from response and retry later.
-5. confirm payment, when use async confirm method, xCurrency Hub will make a [callback notify](https://docs.xcurrency.com/payout/en#section/Developer-Guide/Notification) to your side.
-6. update payment, this can use to update payee's info, or you can create a new payment instead.
-7. get rate, get the quote price from xCurrency Hub.
+4. **Same Currency Transaction Mode** (example: CNY/CNY)
+   1. create payment, this will get a `tradeId`, if not get `tradeId` mean that not create payment on xCurrency Hub platform, please check the message which from response and retry later.
+   2. confirm payment, when use async confirm method, xCurrency Hub will make a [callback notify](https://docs.xcurrency.com/payout/en#section/Developer-Guide/Notification) to your side.
+5. **Cross-Currency Transaction Mode** (example: USD/CNY)
+   1. get rate, get the quote price from xCurrency Hub.
+   2. create payment, this will get a `tradeId`, if not get `tradeId` mean that not create payment on xCurrency Hub platform, please check the message which from response and retry later.
+   3. confirm payment, when use async confirm method, xCurrency Hub will make a [callback notify](https://docs.xcurrency.com/payout/en#section/Developer-Guide/Notification) to your side.
+6. get payment status, when create payment success, can get payment status by `tradeId`.
+7. update payment, if want to change payment some info, this can use to update payee's info, or you can create a new payment instead.
+8. cancel payment, if do not transfer to payee yet, can cancel the payment.
+9. get PBCAreaList, the province, city, district/town data of china, which are used for payee address.
+10. get OccupationList, for the sender's and payee's occupation. 
 
 ```java
 import com.tratao.payout.Client;
@@ -125,10 +137,11 @@ public class Main {
         Client client = new Client(config);
         client.setHost("https://api-sandbox.xcurrency.com");
         
-        // 4. create payment to xCurrency hub
+        // 4. Same Currency Transaction Mode
+        // 4.1 create payment to xCurrency hub
         PaymentStatus paymentStatus = createTransfer(client);
         
-        // 5. confirm transfer to payee bank card or wallet. 
+        // 4.2. async confirm transfer to payee bank card. this will be made a callback to your side.
         if (paymentStatus.canConfirmTransfer()) {
             boolean result = confirmAsync(paymentStatus.getTradeId());
         }
@@ -139,7 +152,9 @@ public class Main {
 
 ## Changelog
 
-Detailed changes for each release are documented in the release notes.
+### version 0.0.1 
+- init project
+- support payout api 
 
 ## License
 
