@@ -5,6 +5,9 @@ import com.tratao.payout.emuns.AccountType;
 import com.tratao.payout.emuns.Gender;
 import com.tratao.payout.emuns.IDCategory;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 public class Payer {
     private AccountType accountType;
     // 本地银行卡号
@@ -27,6 +30,8 @@ public class Payer {
     @JSONField(name = "sex")
     private Gender gender;
 
+    @Valid
+    @NotNull(message = "can not be null")
     private Address address;
 
     public Payer() {

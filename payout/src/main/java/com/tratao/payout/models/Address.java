@@ -2,7 +2,10 @@ package com.tratao.payout.models;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import javax.validation.constraints.NotEmpty;
+
 public class Address {
+    @NotEmpty(message = "address1 can not be empty")
     @JSONField(name = "address")
     private String address1;
     private String city;
