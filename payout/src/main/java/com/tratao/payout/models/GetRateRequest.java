@@ -4,6 +4,15 @@ public class GetRateRequest {
     private String sourceCurrency;
     private String targetCurrency;
 
+    public GetRateRequest() {
+
+    }
+
+    public GetRateRequest(String sourceCurrency, String targetCurrency) {
+        this.sourceCurrency = sourceCurrency;
+        this.targetCurrency = targetCurrency;
+    }
+
     public String getSourceCurrency() {
         return sourceCurrency;
     }

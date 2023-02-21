@@ -56,21 +56,37 @@ import com.tratao.xcore.Config;
 public class Main {
 
     /**
-     * create the Same Currency Transaction Mode payment
+     * create payment
      * @param client
      * 
      * @return PaymentStatus
      */
-    public static PaymentStatus createTransfer(Client client) {
+    public static PaymentStatus createTransfer(Client client, boolean isSame) {
         CreateTransferRequest request = new CreateTransferRequest();
         request.setFundsSource(FundsSource.EMPLOYMENT);
         request.setRelationship(Relationship.SIBLING);
         request.setPurpose(FundsPurpose.FAMILY_SUPPORT);
-        // Same Currency Transaction Mode
-        request.setSourceCurrency("CNY");
-        request.setTargetCurrency("CNY");
-        request.setSourceAmount(50);
-        request.setTargetAmount(50);
+        if (isSame) {
+            // 4. Same Currency Transaction Mode
+            request.setSourceCurrency("CNY");
+            request.setTargetCurrency("CNY");
+            request.setSourceAmount(50);
+            request.setTargetAmount(50);
+        } else {
+            // 5. Cross-Currency Transaction Mode
+            request.setSourceCurrency("USD");
+            request.setTargetCurrency("CNY");
+            request.setSourceAmount(50);
+            // 5.1 get quote rate.
+            GetRateRequest request = new GetRateRequest("USD", "CNY");
+            RateResponseData responseData = client.getRate(request);
+            if (responseData != null) {
+                request.setTargetAmount(50 * responseData.getRate());
+            } else {
+                throw new RuntimeException("Not Rate support, please contact xCurrency Hub for help.");
+            }
+        }
+        
         request.setOrderNo("test_000211110001");
     
         Payer payer = new Payer();
@@ -86,6 +102,13 @@ public class Main {
         payer.setIddCode("61");
         payer.setBirthday("1966-03-03");
         payer.setAccountNumber("1258566545");
+        Address address = new Address();
+        address.setAddress1("Blk 505 Jurong West St 51 #01-186");
+        address.setCity("SGP");
+        address.setDistrict("");
+        address.setCountry("SG");
+        address.setPostCode("426536");
+        payer.setAddress(address);
         request.setPayer(payer);
     
         Beneficiary beneficiary = new Beneficiary();
@@ -99,12 +122,12 @@ public class Main {
         beneficiary.setIdExpiryDate("2035-02-03");
         beneficiary.setIddCode("86");
         beneficiary.setPhone("189111111111");
-        Address address = new Address();
-        address.setAddress1("测试路测试楼 3 号 0101 房");
-        address.setCity("珠海");
-        address.setDistrict("香洲区");
-        address.setState("广东省");
-        beneficiary.setAddress(address);
+        Address beneAddress = new Address();
+        beneAddress.setAddress1("测试路测试楼 3 号 0101 房");
+        beneAddress.setCity("珠海");
+        beneAddress.setDistrict("香洲区");
+        beneAddress.setState("广东省");
+        beneficiary.setAddress(beneAddress);
         beneficiary.setOccupation("Professor");
         request.setBeneficiary(beneficiary);
     
@@ -139,15 +162,23 @@ public class Main {
         
         // 4. Same Currency Transaction Mode
         // 4.1 create payment to xCurrency hub
-        PaymentStatus paymentStatus = createTransfer(client);
+        PaymentStatus paymentStatus = createTransfer(client, true);
         
-        // 4.2. async confirm transfer to payee bank card. this will be made a callback to your side.
+        // 4.2 async confirm transfer to payee bank card. this will be made a callback to your side.
         if (paymentStatus.canConfirmTransfer()) {
             boolean result = confirmAsync(paymentStatus.getTradeId());
         }
+
+        // 5. Cross-Currency Transaction Mode
+        // 5.2 create payment to xCurrency hub
+        // PaymentStatus paymentStatus = createTransfer(client, false);
+
+        // 5.3 async confirm transfer to payee bank card. this will be made a callback to your side.
+        // if (paymentStatus.canConfirmTransfer()) {
+        //     boolean result = confirmAsync(paymentStatus.getTradeId());
+        // }
     }
 }
-
 ```
 
 ## Changelog

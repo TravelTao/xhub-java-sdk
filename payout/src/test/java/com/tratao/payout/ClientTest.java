@@ -83,6 +83,13 @@ public class ClientTest {
         payer.setIddCode("61");
         payer.setBirthday("1966-03-03");
         payer.setAccountNumber("1258566545");
+        Address address = new Address();
+        address.setAddress1("Blk 505 Jurong West St 51 #01-186");
+        address.setCity("SGP");
+        address.setDistrict("");
+        address.setCountry("SG");
+        address.setPostCode("426536");
+        payer.setAddress(address);
         request.setPayer(payer);
 
         Beneficiary beneficiary = new Beneficiary();
@@ -96,12 +103,12 @@ public class ClientTest {
         beneficiary.setIdExpiryDate("2035-02-03");
         beneficiary.setIddCode("86");
         beneficiary.setPhone("133333333333");
-        Address address = new Address();
-        address.setAddress1("测试路测试楼 3 号 0101 房");
-        address.setCity("珠海");
-        address.setDistrict("香洲区");
-        address.setState("广东省");
-        beneficiary.setAddress(address);
+        Address beneAddress = new Address();
+        beneAddress.setAddress1("测试路测试楼 3 号 0101 房");
+        beneAddress.setCity("珠海");
+        beneAddress.setDistrict("香洲区");
+        beneAddress.setState("广东省");
+        beneficiary.setAddress(beneAddress);
         beneficiary.setOccupation("Professor");
         request.setBeneficiary(beneficiary);
 

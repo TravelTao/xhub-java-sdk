@@ -5,6 +5,8 @@ import com.tratao.payout.emuns.AccountType;
 import com.tratao.payout.emuns.Gender;
 import com.tratao.payout.emuns.IDCategory;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Beneficiary {
@@ -29,6 +31,8 @@ public class Beneficiary {
     @JSONField(name = "sex")
     private Gender gender;
 
+    @Valid
+    @NotNull(message = "can not be null")
     private Address address;
 
     public Beneficiary() {
