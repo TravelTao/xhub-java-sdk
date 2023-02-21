@@ -1,9 +1,24 @@
 plugins {
     id 'java'
+    id 'maven-publish'
+    id 'signing'
 }
 
-group 'com.tratao.payout'
+group 'com.tratao'
 version '0.0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    [compileJava]*.options*.encoding = 'UTF-8'
+}
+compileTestJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    [compileTestJava]*.options*.encoding = 'UTF-8'
+}
 
 repositories {
     mavenCentral()
@@ -24,4 +39,70 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+javadoc {
+    options.addStringOption("charset", "UTF-8")
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.name
+            version "${version}"
+            from components.java
+
+            // 添加 pom 相关信息
+            // https://docs.gradle.org/current/dsl/org.gradle.api.publish.maven.MavenPublication.html
+            pom {
+                name = "Payout API SDK"
+                description = "xCurrency Hubs China Payout Java SDK"
+                url = "https://github.com/TravelTao/xhub-java-sdk"
+
+                licenses {
+                    license {
+                        name = "The Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = "xCurrency"
+                        name = "dev"
+                        email = "dev@tratao.com"
+                    }
+                }
+
+                scm {
+                    connection = "scm:git:https://github.com/TravelTao/xhub-java-sdk.git"
+                    developerConnection = "scm:git:https://github.com/TravelTao/xhub-java-sdk.git"
+                    url = "https://github.com/TravelTao/xhub-java-sdk"
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name 'payout'
+            if (project.version.toString().endsWith("-SNAPSHOT")) {
+                url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            } else {
+                url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }

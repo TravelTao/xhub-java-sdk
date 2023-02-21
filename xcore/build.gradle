@@ -91,15 +91,11 @@ publishing {
     }
     repositories {
         maven {
-            name 'xCoreRepository'
+            name 'xCore'
             if (project.version.toString().endsWith("-SNAPSHOT")) {
                 url = "https://s01.oss.sonatype.org/content/repositories/snapshots"
             } else {
                 url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            }
-            credentials {
-                username = "traveltao"
-                password = "tac.EAP4xfw5xfd@cma"
             }
         }
     }
