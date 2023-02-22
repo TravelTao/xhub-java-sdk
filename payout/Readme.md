@@ -144,6 +144,9 @@ The following code example shows the steps to use xCurrency Hubs China Payout SD
     
         public static void main(String[] args) {
             // 1. load properties from resource
+            // appkey=
+            // secretKey=
+            // privateKey=
             InputStream in = ClassLoader.getSystemResourceAsStream("config.properties");
             Properties properties = new Properties();
             properties.load(in);
@@ -153,6 +156,7 @@ The following code example shows the steps to use xCurrency Hubs China Payout SD
             
             // 3. init Client and set API Host
             Client client = new Client(config);
+            // sandbox host
             client.setHost("https://api-sandbox.xcurrency.com");
             
             // 4. Same Currency Transaction Mode
