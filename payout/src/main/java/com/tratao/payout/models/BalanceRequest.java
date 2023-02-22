@@ -1,9 +1,21 @@
 package com.tratao.payout.models;
 
 public class BalanceRequest {
-    private String Currency;
+    private String currency;
+
+    public BalanceRequest() {
+
+    }
+
+    public BalanceRequest(String currency) {
+        this.currency = currency;
+    }
 
     public String getCurrency() {
-        return Currency;
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }
