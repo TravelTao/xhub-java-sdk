@@ -64,7 +64,7 @@ publishing {
             // 添加 pom 相关信息
             // https://docs.gradle.org/current/dsl/org.gradle.api.publish.maven.MavenPublication.html
             pom {
-                name = "Payout API SDK"
+                name = project.name
                 description = "xCurrency Hubs China Payout Java SDK"
                 url = "https://github.com/TravelTao/xhub-java-sdk"
 
@@ -93,9 +93,9 @@ publishing {
     }
     repositories {
         maven {
-            name 'payout'
+            name project.name
             if (project.version.toString().endsWith("-SNAPSHOT")) {
-                url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                url = "https://s01.oss.sonatype.org/content/repositories/snapshots"
             } else {
                 url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             }
