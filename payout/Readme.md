@@ -36,11 +36,11 @@ The following code example shows the steps to use xCurrency Hubs China Payout SD
 3. init Client and set API Host (testing environment and production environment)
 4. **Same Currency Transaction Mode** (example: CNY/CNY)
    1. create payment, this will get a `tradeId`, if not get `tradeId` mean that not create payment on xCurrency Hub platform, please check the message which from response and retry later.
-   2. confirm payment, when use async confirm method, xCurrency Hub will make a [callback notify](https://docs.xcurrency.com/payout/en#section/Developer-Guide/Notification) to your side.
+   2. async confirm payment, when use async confirm method, xCurrency Hub will make a [callback notify](https://docs.xcurrency.com/payout/en#section/Developer-Guide/Notification) to your side.
 5. **Cross-Currency Transaction Mode** (example: USD/CNY)
    1. get rate, get the quote price from xCurrency Hub.
    2. create payment, this will get a `tradeId`, if not get `tradeId` mean that not create payment on xCurrency Hub platform, please check the message which from response and retry later.
-   3. confirm payment, when use async confirm method, xCurrency Hub will make a [callback notify](https://docs.xcurrency.com/payout/en#section/Developer-Guide/Notification) to your side. 
+   3. async confirm payment, when use async confirm method, xCurrency Hub will make a [callback notify](https://docs.xcurrency.com/payout/en#section/Developer-Guide/Notification) to your side. 
 
     ```java
     import com.tratao.payout.Client;
@@ -207,7 +207,7 @@ The following code example shows the steps to use xCurrency Hubs China Payout SD
     ```java
     List<BalanceResponseData> list = client.getAllBalance();
     ```
-13. handle on notify callback by xCurrency Hub's side.
+13. handle on notify callback by xCurrency Hub's side which is on create payment or use async confirm method.
     ```java
     import com.tratao.payout.models.NotifyData;
     import com.tratao.payout.models.NotifyResponseData;
