@@ -233,7 +233,7 @@ The following code example shows the steps to use xCurrency Hubs China Payout SD
             switch (data.getEvent()) {
                 case "payment":
                     // check the payment status
-                    // { "event": "payment", "id": "xxxxxxx", "status": "", "message": ""}
+                    // callback data: { "event": "payment", "id": "xxxxxxx", "status": "", "message": ""}
                     switch (data.getStatus()) {
                         case "pending":
                             // no action, wait for xCurrency Hub's compliance team to review the sender and payee data, will be done at less 2 hours.
