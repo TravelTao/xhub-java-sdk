@@ -235,13 +235,13 @@ public class Client {
     }
 
     /**
-     * send money to beneficiary
+     * send money to beneficiary, this method no callback notify.
      * the request tradeId which is stored by create payment response
-     * true mean that success send money to beneficiary
-     * false mean that transfer error, can check the log
+     * paymentStatus.isCompleted() true mean that send money to beneficiary success
+     * paymentStatus.isCompleted() false mean that transfer error, can check the message
      *
      * @param tradeId ""
-     * @return { status:, message }
+     * @return { status: "", message: "" }
      */
     public PaymentStatus confirmTransfer(String tradeId) {
         String uri = host + "/payout/payment/transfer";
@@ -255,7 +255,7 @@ public class Client {
             RequestResponse<String> response = JSON.parseObject(result.getContent(), new TypeReference<RequestResponse<String>>(){});
 
             if (result.getStatusCode() == 200 && response.getStatus().equals("1")) {
-                return new PaymentStatus("1", response.getData());
+                return new PaymentStatus("completed", "");
             } else if (result.getStatusCode() == 403 && retryTimes < 3) {
                 retryTimes ++;
                 getToken();
