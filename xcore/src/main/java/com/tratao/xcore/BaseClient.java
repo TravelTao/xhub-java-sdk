@@ -292,7 +292,7 @@ public class BaseClient {
      * @param headers request headers
      * @param body request body
      * @return RequestResult
-     * @throws Exception
+     * @throws Exception error exception
      */
     public RequestResult makeRequest(String url, RequestMethod method, HashMap<String, String> params, HashMap<String, String> headers, String body) throws Exception {
         switch (method) {
