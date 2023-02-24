@@ -39,7 +39,7 @@ China Payout has two transaction Modes, the `targetCurrency` should be `CNY` for
 ## Usage
 The following code example shows the steps to use xCurrency Hubs China Payout SDK for Java :
 
-*Note: the `tradeId` should be store on your side system.*
+*Note: the `tradeId` should be stored on your side system.*
 
 1. load properties, or can get from system environment
 2. set properties
