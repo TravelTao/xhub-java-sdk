@@ -20,6 +20,13 @@ China Payout has two transaction Modes, the `targetCurrency` should be `CNY` for
        <artifactId>payout</artifactId>
        <version>Use the version shown in the maven badge</version>
     </dependency>
+  
+    // dependence the base lib
+    <dependency>
+       <groupId>com.tratao</groupId>
+       <artifactId>xcore</artifactId>
+       <version>1.0.3</version>
+    </dependency>
     ```
 - gradle
   ```groovy
