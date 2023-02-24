@@ -1,4 +1,4 @@
-# xCurrency Hubs China Payout Project
+# xCurrency Hubs China Payout Java SDK
 This SDK focus on the [API](https://docs.xcurrency.com/payout/en) integration of China Payout running on our xCurrency Hub platform. Based on our strong CNY distribution network, we can help you make an easier cross-border payout to China, whenever you are launching new products, expanding into China, or adding remittance modular into your existing operations.
 
 You can apply our cutting-edge APIs for an enhanced customer experience, our China Payout solution supports [UnionPay Debit Cards] issued by more than 500 mainstream banks in China, whether it is China's four major state-owned banks, city commercial banks, and rural credit cooperatives in various places.
