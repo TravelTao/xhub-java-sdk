@@ -50,6 +50,7 @@ The following code example shows the steps to use xCurrency Hubs China Payout SD
     import com.tratao.payout.emuns.*;
     import com.tratao.payout.models.*;
     import com.tratao.xcore.Config;
+    import com.tratao.xcore.utils.TLog;
     
     public class Main {
     
@@ -153,6 +154,8 @@ The following code example shows the steps to use xCurrency Hubs China Payout SD
             InputStream in = ClassLoader.getSystemResourceAsStream("config.properties");
             Properties properties = new Properties();
             properties.load(in);
+            // enable log, production can remove this or set false.
+            TLog.getInstance().setDebug(true);
             
             // 2. set properties for config
             Config config = new Config(properties.getProperty("appKey"), properties.getProperty("secretKey"), properties.getProperty("privateKey"));
