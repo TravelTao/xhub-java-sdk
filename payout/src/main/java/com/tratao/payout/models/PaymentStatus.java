@@ -2,9 +2,10 @@ package com.tratao.payout.models;
 
 import com.google.common.base.Strings;
 
+import java.io.Serializable;
 import java.security.PublicKey;
 
-public class PaymentStatus {
+public class PaymentStatus implements Serializable {
     /**
      * error message
      */

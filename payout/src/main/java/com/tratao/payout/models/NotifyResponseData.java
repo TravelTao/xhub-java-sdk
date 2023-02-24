@@ -1,6 +1,8 @@
 package com.tratao.payout.models;
 
-public class NotifyResponseData {
+import java.io.Serializable;
+
+public class NotifyResponseData implements Serializable {
     private String code;
     private String message;
 

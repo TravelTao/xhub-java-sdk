@@ -3,8 +3,9 @@ package com.tratao.payout.models;
 import com.alibaba.fastjson.annotation.JSONField;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
-public class Address {
+public class Address implements Serializable {
     @NotEmpty(message = "address1 can not be empty")
     @JSONField(name = "address")
     private String address1;

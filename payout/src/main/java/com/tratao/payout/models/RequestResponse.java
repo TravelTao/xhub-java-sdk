@@ -3,7 +3,9 @@ package com.tratao.payout.models;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Strings;
 
-public class RequestResponse<T> {
+import java.io.Serializable;
+
+public class RequestResponse<T> implements Serializable {
     private String status;
     private String message;
     private T data;

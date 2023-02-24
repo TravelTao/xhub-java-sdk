@@ -1,6 +1,8 @@
 package com.tratao.payout.models;
 
-public class GetTokenRequest {
+import java.io.Serializable;
+
+public class GetTokenRequest implements Serializable {
     private String appKey;
     private String secretKey;
 

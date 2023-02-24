@@ -2,7 +2,9 @@ package com.tratao.payout.models;
 
 import com.google.common.base.Strings;
 
-public class NotifyData {
+import java.io.Serializable;
+
+public class NotifyData implements Serializable {
     private String event;
     private String id;
     private String status;

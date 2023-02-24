@@ -20,6 +20,10 @@ public class TLog {
         return SingletonLog.instance;
     }
 
+    /**
+     * log info message
+     * @param message ""
+     */
     public void log(String message) {
         if (debug) {
             logger.info(message);

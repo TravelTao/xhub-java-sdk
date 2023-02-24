@@ -7,8 +7,9 @@ import com.tratao.payout.emuns.IDCategory;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-public class Payer {
+public class Payer implements Serializable {
     private AccountType accountType;
     // 本地银行卡号
     private String accountNumber;

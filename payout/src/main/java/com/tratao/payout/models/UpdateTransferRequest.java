@@ -3,7 +3,9 @@ package com.tratao.payout.models;
 import com.tratao.payout.emuns.FundsSource;
 import com.tratao.payout.emuns.Relationship;
 
-public class UpdateTransferRequest {
+import java.io.Serializable;
+
+public class UpdateTransferRequest implements Serializable {
     private String orderNo;
     private Relationship relationship;
     private String purpose;

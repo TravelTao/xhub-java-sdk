@@ -7,8 +7,9 @@ import com.tratao.payout.emuns.Relationship;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 
-public class CreateTransferRequest {
+public class CreateTransferRequest implements Serializable {
     @NotEmpty(message = "can not be null")
     private String orderNo;
     @NotEmpty(message = "can not be null")

@@ -1,8 +1,9 @@
 package com.tratao.payout.models;
 
+import java.io.Serializable;
 import java.util.Locale;
 
-public class OccupationResponseData {
+public class OccupationResponseData implements Serializable {
     private String nameCn;
     private String nameEn;
     private String nameTw;

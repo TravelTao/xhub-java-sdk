@@ -1,6 +1,8 @@
 package com.tratao.payout.models;
 
-public class BalanceResponseData {
+import java.io.Serializable;
+
+public class BalanceResponseData implements Serializable {
     private double amount;
     private String currency;
     private String walletId;

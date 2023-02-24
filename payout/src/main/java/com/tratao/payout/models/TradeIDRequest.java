@@ -1,6 +1,8 @@
 package com.tratao.payout.models;
 
-public class TradeIDRequest {
+import java.io.Serializable;
+
+public class TradeIDRequest implements Serializable {
     private String tradeId;
 
     public TradeIDRequest(String tradeId) {

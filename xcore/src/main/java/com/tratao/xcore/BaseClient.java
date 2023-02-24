@@ -283,6 +283,17 @@ public class BaseClient {
         return makeRequest(url, method, params, headers, null);
     }
 
+    /**
+     * make a request, support get, post, put, delete http method.
+     *
+     * @param url request url
+     * @param method request method
+     * @param params request params
+     * @param headers request headers
+     * @param body request body
+     * @return RequestResult
+     * @throws Exception
+     */
     public RequestResult makeRequest(String url, RequestMethod method, HashMap<String, String> params, HashMap<String, String> headers, String body) throws Exception {
         switch (method) {
             case GET:

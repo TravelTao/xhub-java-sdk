@@ -1,5 +1,13 @@
 package com.tratao.xcore;
 
+/**
+ * Config for xCurrency Hub SDK, the data which is created by xCurrency Hub's Developer team.
+ * Can contact by email: dev@xcurrency.com for help.
+ *
+ * - appKey
+ * - privateKey
+ * - secretKey
+ */
 public class Config {
     private String appKey;
     private String privateKey;

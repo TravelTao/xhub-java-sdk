@@ -7,9 +7,10 @@ import com.tratao.payout.emuns.IDCategory;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Beneficiary {
+public class Beneficiary implements Serializable {
     private AccountType accountType = AccountType.BANK;
     @JSONField(name = "accountNumber")
     private String cardNo;

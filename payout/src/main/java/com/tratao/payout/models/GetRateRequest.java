@@ -1,6 +1,8 @@
 package com.tratao.payout.models;
 
-public class GetRateRequest {
+import java.io.Serializable;
+
+public class GetRateRequest implements Serializable {
     private String sourceCurrency;
     private String targetCurrency;
 

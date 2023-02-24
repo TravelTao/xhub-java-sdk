@@ -1,5 +1,7 @@
 package com.tratao.payout.models;
 
+import java.io.Serializable;
+
 /**
  * Rate response data
  *
@@ -10,7 +12,7 @@ package com.tratao.payout.models;
  *      "targetCurrency": ""
  * }
  */
-public class RateResponseData {
+public class RateResponseData implements Serializable {
     private String queryNo;
     private double rate;
     private String sourceCurrency;

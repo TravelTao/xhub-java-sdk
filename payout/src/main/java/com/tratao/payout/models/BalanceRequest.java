@@ -1,6 +1,8 @@
 package com.tratao.payout.models;
 
-public class BalanceRequest {
+import java.io.Serializable;
+
+public class BalanceRequest implements Serializable {
     private String currency;
 
     public BalanceRequest() {
