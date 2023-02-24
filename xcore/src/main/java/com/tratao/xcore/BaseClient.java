@@ -77,7 +77,6 @@ public class BaseClient {
 
     public CloseableHttpClient getHttpClient() {
         TLog.getInstance().log("init httpclient.");
-        System.out.println("init httpclient.");
 
         RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(timeOut)
