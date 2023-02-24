@@ -1,3 +1,6 @@
+## 1.0.2
+- change log
+
 ## 1.0.1
 - request client
 - config

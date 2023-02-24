@@ -22,7 +22,7 @@ public class TLog {
 
     public void log(String message) {
         if (debug) {
-            logger.debug(message);
+            logger.info(message);
         }
     }
 
