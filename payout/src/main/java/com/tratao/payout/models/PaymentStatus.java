@@ -3,8 +3,15 @@ package com.tratao.payout.models;
 import com.google.common.base.Strings;
 
 import java.io.Serializable;
-import java.security.PublicKey;
 
+/**
+ * The payment status.
+ * {
+ *     "status": "",
+ *     "message": "",
+ *     "tradeId": "" // on create payment will return
+ * }
+ */
 public class PaymentStatus implements Serializable {
     /**
      * error message
