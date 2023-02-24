@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -68,7 +71,12 @@ public class ClientTest {
         request.setTargetCurrency("CNY");
         request.setSourceAmount(50);
         request.setTargetAmount(50);
-        request.setOrderNo("test_000211110003");
+
+        // generate a order no
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
+        String orderNo = formatDate.format(date);
+        request.setOrderNo(orderNo);
 
         Payer payer = new Payer();
         payer.setFirstName("test");
