@@ -112,9 +112,9 @@ public class ClientTest {
 
         Beneficiary beneficiary = new Beneficiary();
         beneficiary.setBirthday("1986-03-03");
-        beneficiary.setName("测试");
-        beneficiary.setCardNo("62356635666655665");
-        beneficiary.setIdNumber("440902196503032365");
+        beneficiary.setName("测试账户");
+        beneficiary.setCardNo("6210281010000460");
+        beneficiary.setIdNumber("330725198009210417");
         beneficiary.setGender(Gender.MALE);
         beneficiary.setIdCategory(IDCategory.IDCARD);
         beneficiary.setIdIssueDate("2015-02-03");
@@ -139,14 +139,21 @@ public class ClientTest {
     @Test
     public void transferAsync() {
 
-        boolean success = client.asyncConfirmTransfer("866cad7d36954feba5278ab762e915d7");
+        boolean success = client.asyncConfirmTransfer("xxxxxxxxxxxxxxxxxxxxxxxx");
 
         Assertions.assertTrue(success);
     }
 
     @Test
+    public void transfer() {
+        PaymentStatus status = client.confirmTransfer("xxxxxxxxxxxxxxxxxxxxxxxx");
+
+        Assertions.assertTrue(status.isCompleted());
+    }
+
+    @Test
     public void status() {
-        PaymentStatus status = client.getPaymentStatus("c90a4317cf2544faba14696ed8e3a9f9");
+        PaymentStatus status = client.getPaymentStatus("xxxxxxxxxxxxxxxxxxxxxxxx");
 
         System.out.println(status);
         Assertions.assertTrue(status.getStatus() != null);
