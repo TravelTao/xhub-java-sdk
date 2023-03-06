@@ -67,10 +67,20 @@ public class ClientTest {
         request.setFundsSource(FundsSource.EMPLOYMENT);
         request.setRelationship(Relationship.SIBLING);
         request.setPurpose(FundsPurpose.FAMILY_SUPPORT);
-        request.setSourceCurrency("CNY");
+        request.setSourceCurrency("USD");
         request.setTargetCurrency("CNY");
         request.setSourceAmount(50);
-        request.setTargetAmount(50);
+        if (request.getSourceCurrency().equals("CNY")) {
+            request.setTargetAmount(request.getSourceAmount());
+        } else {
+            GetRateRequest rateRequest = new GetRateRequest(request.getSourceCurrency(), request.getTargetCurrency());
+            RateResponseData responseData = client.getRate(rateRequest);
+            if (responseData != null) {
+                request.setTargetAmount(request.getSourceAmount() * responseData.getRate());
+            } else {
+                throw new RuntimeException("Not Rate support, please contact xCurrency Hub for help.");
+            }
+        }
 
         // generate a order no
         LocalDateTime date = LocalDateTime.now();
@@ -129,7 +139,7 @@ public class ClientTest {
     @Test
     public void transferAsync() {
 
-        boolean success = client.asyncConfirmTransfer("c90a4317cf2544faba14696ed8e3a9f9");
+        boolean success = client.asyncConfirmTransfer("866cad7d36954feba5278ab762e915d7");
 
         Assertions.assertTrue(success);
     }
