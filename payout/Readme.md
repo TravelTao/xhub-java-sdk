@@ -282,12 +282,6 @@ The following code example shows the steps to use xCurrency Hubs China Payout SD
                             // cancel the payment
     
                             break;
-                        case "refunding":
-    
-                            break;
-                        case "refunded":
-    
-                            break;
                     }
     
                     break;
