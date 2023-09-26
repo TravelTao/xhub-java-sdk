@@ -1,7 +1,7 @@
 package com.tratao.payout.emuns;
 
 public enum IDCategory {
-    IDCARD("idcard"),PASSPORT("passport"),DRIVER("driver"),RESIDENCE("residence"),OTHER("other");
+    IDCARD("idcard"),PASSPORT("passport"),DRIVER("driver"),RESIDENCE("residence"),WORKPERMIT("workpermit"),OTHER("other");
 
     public final String name;
 

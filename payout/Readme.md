@@ -251,6 +251,11 @@ The following code example shows the steps to use xCurrency Hubs China Payout SD
                         case "pending":
                             // no action, wait for xCurrency Hub's compliance team to review the sender and payee data, will be done at less 2 hours.
                             break;
+                        case "pending_material":
+                            // TODO:: Pending for the merchant to complete the upload certification materials
+                            // Please contact your account manager.
+    
+                            break;
                         case "awaiting_transfer":
                             // TODO:: use confirm API or async confirm API.
     
@@ -275,6 +280,12 @@ The following code example shows the steps to use xCurrency Hubs China Payout SD
                             break;
                         case "canceled":
                             // cancel the payment
+    
+                            break;
+                        case "refunding":
+    
+                            break;
+                        case "refunded":
     
                             break;
                     }

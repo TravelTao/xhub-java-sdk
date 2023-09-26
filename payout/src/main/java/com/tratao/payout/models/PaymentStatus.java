@@ -20,11 +20,15 @@ public class PaymentStatus implements Serializable {
     /**
      * payment status
      * - pending
+     * - pending_material
      * - awaiting_transfer
      * - transferring
      * - completed
      * - failed
+     * - rejected
      * - canceled
+     * - refunding
+     * - refunded
      */
     private String status;
     /**
