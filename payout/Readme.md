@@ -18,7 +18,7 @@ China Payout has two transaction Modes, the `targetCurrency` should be `CNY` for
     <dependency>
        <groupId>com.tratao</groupId>
        <artifactId>payout</artifactId>
-       <version>Use the version shown in the maven badge</version>
+       <version>0.0.2</version>
     </dependency>
   
     // dependence the base lib
@@ -30,7 +30,7 @@ China Payout has two transaction Modes, the `targetCurrency` should be `CNY` for
     ```
 - gradle
   ```groovy
-  impletement 'com.tratao:payout:0.0.1'
+  impletement 'com.tratao:payout:0.0.2'
   
   // dependence the base lib
   implementation 'com.tratao:xcore:1.0.3'
